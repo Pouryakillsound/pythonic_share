@@ -1,4 +1,4 @@
-pythonic_share is a sharing system on your router. 
+pythonic_share is a sharing system on your router which can be run on a Unix-like OS so far. 
 
 In order to use it go to pythic_share directory and run the following commands:
 ```bash

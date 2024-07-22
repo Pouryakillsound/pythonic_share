@@ -1,23 +1,39 @@
+#!/bin/python3
 import os
+import argparse
 from flask import Flask, render_template, send_from_directory
+from collections import deque
 
-PROGRAM_NAME = 'easy share'
-template_dir = os.path.abspath('./static')
-app = Flask(__name__, template_folder = template_dir)
+TEMPLATE_DIR = os.path.abspath('./static')
+USERNAME = os.getlogin()
+PROGRAM_NAME = 'pythonic share'
+app = Flask(__name__, template_folder=TEMPLATE_DIR)
 
-path = os.getenv('path', ".")
-path_abs = os.path.abspath(path)
-files = [i.name for i in os.scandir(path_abs) if i.is_file()]
+parser = argparse.ArgumentParser(prog=PROGRAM_NAME)
+parser.add_argument('-d', '--directory', action='store', default='~/Downloads')
+args = parser.parse_args()
+path = deque([i for i in args.directory])
 
+if path[0] == '~':
+  path.popleft()
+  path.appendleft(f'/home/{USERNAME}')
+path = ''.join(path)
+
+try:
+  files = [i.name for i in os.scandir(path) if i.is_file()]
+except FileNotFoundError:
+  print('This directory doesn\'t exist')
+  exit(1)
 
 @app.route('/')
 def hello_world():
-    return render_template("router_home_page.html", files=files)
+  return render_template('router_home_page.html', files=files)
+
 
 @app.route('/download/<path:name>')
-def download_file(name, path=path_abs):
-    print(path, name)
-    return send_from_directory(path, name, as_attachment=True)
+def download_file(name, path=path):
+  print(f'Someone is picking up <{name}> in >> {path}')
+  return send_from_directory(path, name, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',  port='5000')
+  app.run(host='0.0.0.0')

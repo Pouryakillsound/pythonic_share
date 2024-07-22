@@ -10,3 +10,10 @@ now you'll be given some IPs (Note: all your devices should be connected to one 
 or you can connect all your devices to your phone's hotspot and use hotspot as a router).
 
 Chose the on that is not 127.0.0.1 because this IP is only accessible to you computer locally.
+
+for setting the folder to be shared you should pass it the environment variable path by for example using:
+
+```bash
+path=. python3 app.py
+```
+well < . > means where you currently are at.

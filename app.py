@@ -1,9 +1,10 @@
 #!/bin/python3
 import os
 import argparse
-from flask import Flask, render_template, send_from_directory
-from collections import deque
+from sys import exit
 from pathlib import Path
+from collections import deque
+from flask import Flask, render_template, send_from_directory
 
 OS = os.name
 Windows = 'nt'

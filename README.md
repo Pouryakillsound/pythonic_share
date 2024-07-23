@@ -4,7 +4,7 @@ pythonic_share is a sharing system on your router which can be run on Unix-like 
 In order to use it go to pythic_share directory and run the following commands:
 ```bash
 pip3 install flask
-python3 ./app.py
+./app.py
 ```
 
 now you'll be given some IPs (Note: all your devices should be connected to one router

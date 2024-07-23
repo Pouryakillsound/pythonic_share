@@ -5,6 +5,9 @@ from flask import Flask, render_template, send_from_directory
 from collections import deque
 from pathlib import Path
 
+OS = os.name
+Windows = 'nt'
+Unix_like = 'Unix'
 SOURCE_FILE_PATH = Path(__file__).resolve().parent
 CURRENT_PATH = os.getcwd()
 TEMPLATE_DIR = f'{SOURCE_FILE_PATH}/static'
@@ -13,28 +16,40 @@ PROGRAM_NAME = 'pythonic share'
 app = Flask(__name__, template_folder=TEMPLATE_DIR)
 
 parser = argparse.ArgumentParser(prog=PROGRAM_NAME)
-parser.add_argument('-d', '--directory', action='store', default='~/Downloads')
+if OS == Unix_like:
+  parser.add_argument('-d', '--directory', action='store', default='~/Downloads')
+elif OS == Windows:
+  parser.add_argument('-d', '--directory', action='store', default=r'C:\Users\Pourya\Downloads')
+
 args = parser.parse_args()
-path = deque([i for i in args.directory])
+share_path = deque([i for i in args.directory])
 
-if path[0] == '~':
-  path.popleft()
-  path.appendleft(f'/home/{USERNAME}')
+if share_path[0] == '~' and OS == Unix_like:
+  share_path.popleft()
+  share_path.appendleft(f'/home/{USERNAME}')
+elif share_path[0] == '~' and OS == Windows:
+  print('<~> operator is not supported on windows')
+  exit(1)
 
-path = ''.join(path)
+if share_path[0] == '.':
+    share_path.popleft()
+    share_path.appendleft(os.path.abspath(CURRENT_PATH))
+
+share_path = ''.join(share_path)
 
 try:
-  files = [i.name for i in os.scandir(path) if i.is_file()]
+  files = [i.name for i in os.scandir(share_path) if i.is_file()]
 except FileNotFoundError:
   print('This directory doesn\'t exist')
   exit(1)
+
 @app.route('/')
 def hello_world():
   return render_template('router_home_page.html', files=files)
 
 
 @app.route('/download/<path:name>')
-def download_file(name, path=path):
+def download_file(name, path=share_path):
   print(f'Someone is picking up <{name}> in >> {path}')
   return send_from_directory(path, name, as_attachment=True)
 

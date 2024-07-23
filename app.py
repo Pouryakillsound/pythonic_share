@@ -1,7 +1,6 @@
 #!/bin/python3
 import os
 import argparse
-from inspect import getsourcefile
 from flask import Flask, render_template, send_from_directory
 from collections import deque
 from pathlib import Path

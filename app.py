@@ -30,7 +30,6 @@ except FileNotFoundError:
   exit(1)
 @app.route('/')
 def hello_world():
-  print(path, files)
   return render_template('router_home_page.html', files=files)
 
 

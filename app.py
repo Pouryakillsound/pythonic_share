@@ -8,7 +8,7 @@ from flask import Flask, render_template, send_from_directory
 
 OS = os.name
 Windows = 'nt'
-Unix_like = 'Unix'
+Unix_like = 'posix'
 SOURCE_FILE_PATH = Path(__file__).resolve().parent
 CURRENT_PATH = os.getcwd()
 TEMPLATE_DIR = f'{SOURCE_FILE_PATH}/static'

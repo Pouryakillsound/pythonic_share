@@ -8,7 +8,6 @@ from pathlib import Path
 SOURCE_FILE_PATH = Path(__file__).resolve().parent
 CURRENT_PATH = os.getcwd()
 TEMPLATE_DIR = f'{SOURCE_FILE_PATH}/static'
-print(TEMPLATE_DIR)
 USERNAME = os.getlogin()
 PROGRAM_NAME = 'pythonic share'
 app = Flask(__name__, template_folder=TEMPLATE_DIR)

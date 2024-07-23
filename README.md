@@ -22,5 +22,5 @@ if you dont pass the argument ```-d``` it will set to ```~/Downloads```
 
 and if you want to use it somewhere other than the main directory of the project as a tool run:
 ```bath
-sudo ln -s /home/pourya/p/pythonic_share/app.py /usr/local/bin/pythonic_share
+sudo ln -s [source_folder]/app.py /usr/local/bin/pythonic_share
 ```

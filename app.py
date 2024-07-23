@@ -1,10 +1,15 @@
 #!/bin/python3
 import os
 import argparse
+from inspect import getsourcefile
 from flask import Flask, render_template, send_from_directory
 from collections import deque
+from pathlib import Path
 
-TEMPLATE_DIR = os.path.abspath('./static')
+SOURCE_FILE_PATH = Path(__file__).resolve().parent
+CURRENT_PATH = os.getcwd()
+TEMPLATE_DIR = f'{SOURCE_FILE_PATH}/static'
+print(TEMPLATE_DIR)
 USERNAME = os.getlogin()
 PROGRAM_NAME = 'pythonic share'
 app = Flask(__name__, template_folder=TEMPLATE_DIR)
@@ -17,6 +22,7 @@ path = deque([i for i in args.directory])
 if path[0] == '~':
   path.popleft()
   path.appendleft(f'/home/{USERNAME}')
+
 path = ''.join(path)
 
 try:
@@ -24,9 +30,9 @@ try:
 except FileNotFoundError:
   print('This directory doesn\'t exist')
   exit(1)
-
 @app.route('/')
 def hello_world():
+  print(path, files)
   return render_template('router_home_page.html', files=files)
 
 

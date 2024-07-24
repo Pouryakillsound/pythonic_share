@@ -7,8 +7,8 @@ from collections import deque
 from flask import Flask, render_template, send_from_directory
 
 OS = os.name
-Windows = 'nt'
-Unix_like = 'posix'
+WINDOWS = 'nt'
+UNIX_LIKE = 'posix'
 SOURCE_FILE_PATH = Path(__file__).resolve().parent
 CURRENT_PATH = os.getcwd()
 TEMPLATE_DIR = f'{SOURCE_FILE_PATH}/static'
@@ -17,18 +17,18 @@ PROGRAM_NAME = 'pythonic share'
 app = Flask(__name__, template_folder=TEMPLATE_DIR)
 
 parser = argparse.ArgumentParser(prog=PROGRAM_NAME)
-if OS == Unix_like:
+if OS == UNIX_LIKE:
   parser.add_argument('-d', '--directory', action='store', default='~/Downloads')
-elif OS == Windows:
+elif OS == WINDOWS:
   parser.add_argument('-d', '--directory', action='store', default=fr'C:\Users\{USERNAME}\Downloads')
 
 args = parser.parse_args()
 share_path = deque([i for i in args.directory])
 
-if share_path[0] == '~' and OS == Unix_like:
+if share_path[0] == '~' and OS == UNIX_LIKE:
   share_path.popleft()
   share_path.appendleft(f'/home/{USERNAME}')
-elif share_path[0] == '~' and OS == Windows:
+elif share_path[0] == '~' and OS == WINDOWS:
   print('<~> operator is not supported on windows')
   exit(1)
 

@@ -20,7 +20,7 @@ parser = argparse.ArgumentParser(prog=PROGRAM_NAME)
 if OS == Unix_like:
   parser.add_argument('-d', '--directory', action='store', default='~/Downloads')
 elif OS == Windows:
-  parser.add_argument('-d', '--directory', action='store', default=r'C:\Users\Pourya\Downloads')
+  parser.add_argument('-d', '--directory', action='store', default=fr'C:\Users\{USERNAME}\Downloads')
 
 args = parser.parse_args()
 share_path = deque([i for i in args.directory])
